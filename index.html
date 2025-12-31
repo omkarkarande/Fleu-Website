@@ -144,6 +144,18 @@
       }
     });
 
+    // Default hover on center screenshot
+    const centerScreenshot = document.querySelectorAll('.screenshot')[1];
+    centerScreenshot.style.transform = 'scale(1.08)';
+    centerScreenshot.style.filter = 'drop-shadow(0 0 25px rgba(94, 234, 212, 0.1)) drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2))';
+
+    document.querySelectorAll('.screenshot').forEach(img => {
+      img.addEventListener('mouseenter', () => {
+        centerScreenshot.style.transform = '';
+        centerScreenshot.style.filter = '';
+      }, { once: true });
+    });
+
     // Carousel functionality
     const screenshotsGrid = document.querySelector('.screenshots-grid');
     const dots = document.querySelectorAll('.carousel-dot');
