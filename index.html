@@ -184,6 +184,11 @@
       });
     });
 
+    // Initialize carousel to show the second (center) image on load
+    if (isCarouselActive()) {
+      screenshots[1].scrollIntoView({ behavior: 'instant', inline: 'center', block: 'nearest' });
+    }
+
     screenshotsGrid.addEventListener('scroll', () => {
       const scrollLeft = screenshotsGrid.scrollLeft;
       const containerWidth = screenshotsGrid.offsetWidth;
