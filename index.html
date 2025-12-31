@@ -49,8 +49,8 @@
           </div>
         </div>
         <div class="carousel-dots">
-          <button class="carousel-dot active" data-index="0"></button>
-          <button class="carousel-dot" data-index="1"></button>
+          <button class="carousel-dot" data-index="0"></button>
+          <button class="carousel-dot active" data-index="1"></button>
           <button class="carousel-dot" data-index="2"></button>
         </div>
       </div>
@@ -144,22 +144,38 @@
       }
     });
 
-    // Default hover on center screenshot
-    const centerScreenshot = document.querySelectorAll('.screenshot')[1];
-    centerScreenshot.style.transform = 'scale(1.08)';
-    centerScreenshot.style.filter = 'drop-shadow(0 0 25px rgba(94, 234, 212, 0.1)) drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2))';
-
-    document.querySelectorAll('.screenshot').forEach(img => {
-      img.addEventListener('mouseenter', () => {
-        centerScreenshot.style.transform = '';
-        centerScreenshot.style.filter = '';
-      }, { once: true });
-    });
-
     // Carousel functionality
     const screenshotsGrid = document.querySelector('.screenshots-grid');
     const dots = document.querySelectorAll('.carousel-dot');
     const screenshots = document.querySelectorAll('.screenshot');
+    const centerScreenshot = screenshots[1];
+
+    const isCarouselActive = () => window.innerWidth <= 768;
+
+    const applyHoverEffect = (img, includeGlow = true) => {
+      img.style.transform = 'scale(1.08)';
+      if (includeGlow) {
+        img.style.filter = 'drop-shadow(0 0 25px rgba(94, 234, 212, 0.1)) drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2))';
+      }
+    };
+
+    const removeHoverEffect = (img) => {
+      img.style.transform = '';
+      img.style.filter = '';
+    };
+
+    // Default hover on center screenshot
+    if (isCarouselActive()) {
+      applyHoverEffect(centerScreenshot, false);
+    } else {
+      applyHoverEffect(centerScreenshot, true);
+
+      screenshots.forEach(img => {
+        img.addEventListener('mouseenter', () => {
+          removeHoverEffect(centerScreenshot);
+        }, { once: true });
+      });
+    }
 
     dots.forEach(dot => {
       dot.addEventListener('click', () => {
@@ -190,7 +206,25 @@
       dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === activeIndex);
       });
+
+      // Update scale effect on active screenshot in carousel mode (no glow)
+      if (isCarouselActive()) {
+        screenshots.forEach((screenshot, index) => {
+          if (index === activeIndex) {
+            applyHoverEffect(screenshot, false);
+          } else {
+            removeHoverEffect(screenshot);
+          }
+        });
+      }
     });
+
+    // Start carousel on center image (wait for layout)
+    if (isCarouselActive()) {
+      setTimeout(() => {
+        centerScreenshot.scrollIntoView({ inline: 'center', block: 'nearest' });
+      }, 50);
+    }
   </script>
 </body>
 </html>

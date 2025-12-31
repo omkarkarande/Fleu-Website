@@ -134,7 +134,7 @@ h1, h2, h3 {
 
 /* Screenshots Section */
 .screenshots {
-  padding: 20px 0 60px;
+  padding: 20px 0 30px;
 }
 
 .screenshots-wrapper {
@@ -207,7 +207,7 @@ h1, h2, h3 {
 
 /* Features Section */
 .features {
-  padding: 80px 0;
+  padding: 40px 0 80px;
 }
 
 .features h2 {
@@ -438,7 +438,12 @@ footer {
   }
 
   .screenshots {
-    padding: 20px 0 40px;
+    padding: 20px 0 20px;
+  }
+
+  .screenshots .container {
+    padding: 0;
+    max-width: 100%;
   }
 
   .screenshots-grid {
@@ -446,10 +451,11 @@ footer {
     justify-content: flex-start;
     gap: 20px;
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding: 0 calc(50% - 100px);
+    padding: 25px calc(50% - 100px);
   }
 
   .screenshots-grid::-webkit-scrollbar {
@@ -469,7 +475,7 @@ footer {
 
   .screenshots-wrapper::before,
   .screenshots-wrapper::after {
-    opacity: 1;
+    display: none;
   }
 
   .features-grid {
@@ -494,7 +500,7 @@ footer {
 
   .screenshots-grid {
     gap: 16px;
-    padding: 0 calc(50% - 80px);
+    padding: 25px calc(50% - 80px);
   }
 
   .features-grid {
