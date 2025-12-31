@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fleu - Micro Journaling for Mindful Moments</title>
+  <meta name="description" content="Fleu is a micro journaling app that helps you capture moments and understand your mood through AI-powered insights.">
+  <meta property="og:title" content="Fleu - Micro Journaling for Mindful Moments">
+  <meta property="og:description" content="Capture moments, understand your mood. A micro journaling app with AI-powered insights.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fleu.app">
+  <meta property="og:image" content="https://fleu.app/assets/logo_dark_background.PNG">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="apple-touch-icon" href="assets/logo_dark_background.PNG">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" type="image/png" href="assets/logo_dark_background.PNG">
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <img src="assets/logo_dark_background.PNG" alt="Fleu" class="hero-logo">
+        <h1>Micro Journaling for Mindful Moments</h1>
+        <p class="tagline">Capture your thoughts throughout the day. Fleu uses on-device AI to understand your mood and reveal insights about your emotional well-being.</p>
+        <div class="download-buttons">
+          <a href="https://testflight.apple.com/join/DFhQ72wR" target="_blank" rel="noopener">
+            <img src="assets/testflight-badge.png" alt="Available on TestFlight" class="testflight-badge">
+          </a>
+          <a href="https://apps.apple.com/app/fleu" target="_blank" rel="noopener" class="app-store-link disabled">
+            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" class="app-store-badge">
+            <span class="coming-soon">Coming Soon</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="screenshots">
+      <div class="container">
+        <div class="screenshots-wrapper">
+          <div class="screenshots-grid">
+            <img src="assets/1.png" alt="Fleu journal timeline" class="screenshot">
+            <img src="assets/2.png" alt="Fleu mood insights" class="screenshot">
+            <img src="assets/3.png" alt="Fleu calendar view" class="screenshot">
+          </div>
+        </div>
+        <div class="carousel-dots">
+          <button class="carousel-dot active" data-index="0"></button>
+          <button class="carousel-dot" data-index="1"></button>
+          <button class="carousel-dot" data-index="2"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2>Why Fleu?</h2>
+        <div class="features-grid">
+          <div class="feature">
+            <div class="feature-icon"><i data-lucide="pen-line"></i></div>
+            <h3>Micro Journaling</h3>
+            <p>Quick, timestamped entries that fit into your busy day. No pressure to write pages - just capture the moment.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon"><i data-lucide="sparkles"></i></div>
+            <h3>AI Mood Insights</h3>
+            <p>Powered entirely by on-device intelligence. Your entries are analyzed locally to reveal emotional patterns - nothing ever leaves your phone.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon"><i data-lucide="trending-up"></i></div>
+            <h3>Track Your Trends</h3>
+            <p>Visualize your mood over time with beautiful charts. See your streaks, peak times, and emotional distribution.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon"><i data-lucide="smartphone"></i></div>
+            <h3>Native iOS Experience</h3>
+            <p>Built with SwiftUI and Apple's Liquid Glass design. Feels right at home on your iPhone with smooth animations and familiar interactions.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+            <h3>Privacy First</h3>
+            <p>No servers, no tracking, no data collection. Your journal stays on your device and syncs only through your personal iCloud.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="privacy.html">Privacy Policy</a>
+        </div>
+        <p class="copyright">&copy; 2025 Fleu. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal" id="imageModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <img src="" alt="Screenshot" class="modal-image" id="modalImage">
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    document.querySelectorAll('.feature').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+
+    document.querySelectorAll('.screenshot').forEach(img => {
+      img.addEventListener('click', () => {
+        modalImage.src = img.src;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    modal.addEventListener('click', () => {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Carousel functionality
+    const screenshotsGrid = document.querySelector('.screenshots-grid');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const screenshots = document.querySelectorAll('.screenshot');
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const index = parseInt(dot.dataset.index);
+        screenshots[index].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      });
+    });
+
+    screenshotsGrid.addEventListener('scroll', () => {
+      const scrollLeft = screenshotsGrid.scrollLeft;
+      const containerWidth = screenshotsGrid.offsetWidth;
+      let activeIndex = 0;
+      let minDistance = Infinity;
+
+      screenshots.forEach((screenshot, index) => {
+        const rect = screenshot.getBoundingClientRect();
+        const gridRect = screenshotsGrid.getBoundingClientRect();
+        const center = rect.left + rect.width / 2;
+        const gridCenter = gridRect.left + gridRect.width / 2;
+        const distance = Math.abs(center - gridCenter);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          activeIndex = index;
+        }
+      });
+
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === activeIndex);
+      });
+    });
+  </script>
+</body>
+</html>
