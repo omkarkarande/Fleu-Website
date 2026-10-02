@@ -1,11 +1,12 @@
-/* Fleu: paper, ink, and a quiet editorial rhythm. No remote dependencies. */
+/* Fleu: black canvas and a quiet editorial rhythm. No remote dependencies. */
 :root {
-  --paper: #f3f0e7;
-  --ink: #242820;
-  --muted: #626457;
-  --rule: #c7c8b9;
-  --olive: #e1e4d5;
-  --rust: #974b32;
+  color-scheme: dark;
+  --paper: #000;
+  --ink: #f3f0e7;
+  --muted: #a6a69c;
+  --rule: #383a34;
+  --olive: #000;
+  --rust: #d99376;
   --serif: Georgia, "Times New Roman", serif;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
@@ -218,7 +219,7 @@ em {
   width: 260px;
   max-width: 100%;
   cursor: zoom-in;
-  border: 1px solid #343830;
+  border: 0;
   background: #000;
   line-height: 0;
 }
@@ -312,7 +313,7 @@ em {
 }
 .feature-plate {
   padding: 22px;
-  background: #e8e5db;
+  background: var(--paper);
 }
 .feature-plate .screen-link {
   margin: 28px auto;
@@ -330,7 +331,7 @@ em {
   line-height: 1.7;
 }
 .insights-plate {
-  background: #e1e4d5;
+  background: var(--paper);
   margin-top: 84px;
 }
 .spread-note {
@@ -347,7 +348,7 @@ em {
   display: block;
 }
 .privacy-band {
-  background: #e4e5d9;
+  background: var(--paper);
   border-block: 1px solid var(--rule);
 }
 .privacy-spread {
@@ -368,7 +369,7 @@ em {
   display: grid;
   grid-template-columns: 30px 1fr;
   gap: 20px;
-  border-bottom: 1px solid #bcbfb0;
+  border-bottom: 1px solid var(--rule);
   padding: 24px 0;
 }
 .privacy-points > div:first-child {
@@ -447,7 +448,7 @@ dialog {
   overflow: auto;
 }
 dialog::backdrop {
-  background: rgb(20 24 18 / 0.86);
+  background: rgb(0 0 0 / 0.86);
 }
 .dialog-toolbar {
   position: sticky;
@@ -463,6 +464,7 @@ dialog::backdrop {
 }
 .dialog-close {
   cursor: pointer;
+  color: inherit;
   background: transparent;
   border: 1px solid var(--ink);
   padding: 8px 14px;
@@ -540,7 +542,7 @@ dialog::backdrop {
 .policy-note {
   padding: 24px;
   border-left: 2px solid var(--rust);
-  background: #e8e5db;
+  background: var(--paper);
   margin-bottom: 40px;
 }
 .support-email {
@@ -814,6 +816,15 @@ dialog::backdrop {
   }
 }
 @media print {
+  :root {
+    color-scheme: light;
+    --paper: #fff;
+    --ink: #242820;
+    --muted: #626457;
+    --rule: #c7c8b9;
+    --olive: #fff;
+    --rust: #974b32;
+  }
   body {
     background: #fff;
     color: #000;

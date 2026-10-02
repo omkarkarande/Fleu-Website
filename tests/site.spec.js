@@ -135,6 +135,24 @@ test("privacy and compatibility regressions", async ({ page }) => {
   );
 });
 
+test("black palette blends screenshot surfaces into the page", async ({ page }) => {
+  for (const route of pages) {
+    await page.goto(`/${route}`);
+    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(0, 0, 0)");
+    await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute("content", "#000000");
+  }
+  await page.goto("/");
+  for (const surface of await page.locator(".hero-plate, .feature-plate, .privacy-band, .screen-link").all()) {
+    await expect(surface).toHaveCSS("background-color", "rgb(0, 0, 0)");
+  }
+  for (const screen of await page.locator(".screen-link").all()) {
+    await expect(screen).toHaveCSS("border-top-width", "0px");
+  }
+  await page.locator("[data-zoom]").first().click();
+  const a11y = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+  expect(a11y.violations).toEqual([]);
+});
+
 test("capture review images", async ({ page }, testInfo) => {
   test.skip(
     testInfo.project.name !== "chromium",
