@@ -165,7 +165,7 @@ test("black palette blends screenshot surfaces into the page", async ({
   expect(a11y.violations).toEqual([]);
 });
 
-test("quiet layout uses full-width top crops without losing originals", async ({
+test("restored editorial layout keeps full-width top crops and originals", async ({
   page,
 }) => {
   for (const width of [320, 390, 768, 1024, 1440]) {
@@ -175,7 +175,9 @@ test("quiet layout uses full-width top crops without losing originals", async ({
       page.locator(
         ".margin-note, .vertical-note, .spread-note, .plate-top, .intro-strip",
       ),
-    ).toHaveCount(0);
+    ).toHaveCount(7);
+    await expect(page.locator(".intro-strip")).toBeVisible();
+    await expect(page.locator(".spread-note")).toBeVisible();
     const screens = page.locator(".screen-link");
     await expect(screens).toHaveCount(3);
     for (const screen of await screens.all()) {
@@ -187,16 +189,22 @@ test("quiet layout uses full-width top crops without losing originals", async ({
       expect(Math.abs(box.width - imageBox.width)).toBeLessThan(1);
       expect(Math.abs(box.height - imageBox.height)).toBeLessThan(1);
       expect(box.width / box.height).toBeGreaterThan(0.7);
-      const parentWidth = await screen.evaluate(
-        (el) => el.parentElement.clientWidth,
-      );
+      const parentWidth = await screen.evaluate((el) => {
+        const parent = el.parentElement;
+        const style = getComputedStyle(parent);
+        return (
+          parent.clientWidth -
+          parseFloat(style.paddingLeft) -
+          parseFloat(style.paddingRight)
+        );
+      });
       expect(Math.abs(parentWidth - box.width)).toBeLessThan(1);
     }
     if (width > 700) {
       const plates = await page.locator(".feature-plate").all();
       const first = await plates[0].boundingBox();
       const second = await plates[1].boundingBox();
-      expect(Math.abs(first.y - second.y)).toBeLessThan(1);
+      expect(Math.abs(second.y - first.y - 84)).toBeLessThan(1);
     }
   }
   await page.locator("[data-zoom]").last().click();
