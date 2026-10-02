@@ -135,22 +135,77 @@ test("privacy and compatibility regressions", async ({ page }) => {
   );
 });
 
-test("black palette blends screenshot surfaces into the page", async ({ page }) => {
+test("black palette blends screenshot surfaces into the page", async ({
+  page,
+}) => {
   for (const route of pages) {
     await page.goto(`/${route}`);
-    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(0, 0, 0)");
-    await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute("content", "#000000");
+    await expect(page.locator("body")).toHaveCSS(
+      "background-color",
+      "rgb(0, 0, 0)",
+    );
+    await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute(
+      "content",
+      "#000000",
+    );
   }
   await page.goto("/");
-  for (const surface of await page.locator(".hero-plate, .feature-plate, .privacy-band, .screen-link").all()) {
+  for (const surface of await page
+    .locator(".hero-plate, .feature-plate, .privacy-band, .screen-link")
+    .all()) {
     await expect(surface).toHaveCSS("background-color", "rgb(0, 0, 0)");
   }
   for (const screen of await page.locator(".screen-link").all()) {
     await expect(screen).toHaveCSS("border-top-width", "0px");
   }
   await page.locator("[data-zoom]").first().click();
-  const a11y = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+  const a11y = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
   expect(a11y.violations).toEqual([]);
+});
+
+test("quiet layout uses full-width top crops without losing originals", async ({
+  page,
+}) => {
+  for (const width of [320, 390, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await expect(
+      page.locator(
+        ".margin-note, .vertical-note, .spread-note, .plate-top, .intro-strip",
+      ),
+    ).toHaveCount(0);
+    const screens = page.locator(".screen-link");
+    await expect(screens).toHaveCount(3);
+    for (const screen of await screens.all()) {
+      const image = screen.locator("img");
+      await expect(image).toHaveCSS("object-fit", "cover");
+      await expect(image).toHaveCSS("object-position", "50% 0%");
+      const box = await screen.boundingBox();
+      const imageBox = await image.boundingBox();
+      expect(Math.abs(box.width - imageBox.width)).toBeLessThan(1);
+      expect(Math.abs(box.height - imageBox.height)).toBeLessThan(1);
+      expect(box.width / box.height).toBeGreaterThan(0.7);
+      const parentWidth = await screen.evaluate(
+        (el) => el.parentElement.clientWidth,
+      );
+      expect(Math.abs(parentWidth - box.width)).toBeLessThan(1);
+    }
+    if (width > 700) {
+      const plates = await page.locator(".feature-plate").all();
+      const first = await plates[0].boundingBox();
+      const second = await plates[1].boundingBox();
+      expect(Math.abs(first.y - second.y)).toBeLessThan(1);
+    }
+  }
+  await page.locator("[data-zoom]").last().click();
+  await expect(page.locator("#dialog-image")).toHaveCSS("height", /px$/);
+  expect(
+    await page
+      .locator("#dialog-image")
+      .evaluate((img) => img.clientHeight / img.clientWidth),
+  ).toBeGreaterThan(2);
 });
 
 test("capture review images", async ({ page }, testInfo) => {
