@@ -211,7 +211,7 @@ em {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 16px;
+  margin-top: 12px;
   padding: 36px 25px;
 }
 .screen-link {
@@ -316,7 +316,7 @@ em {
   background: var(--paper);
 }
 .feature-plate .screen-link {
-  margin: 28px auto;
+  margin: 12px auto 28px;
   width: 248px;
 }
 .feature-plate figcaption {
@@ -815,7 +815,7 @@ dialog::backdrop {
     scroll-behavior: auto;
   }
 }
-/* Fill screenshot plates with top-aligned crops; zoom keeps the originals. */
+/* Lift screenshot content past its empty top margin; zoom keeps the originals. */
 .hero-plate {
   min-height: 0;
   padding: 0;
@@ -832,7 +832,7 @@ dialog::backdrop {
 .screen-link img {
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 18%;
 }
 .hero-screen {
   aspect-ratio: 4 / 5;

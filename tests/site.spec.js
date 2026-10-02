@@ -183,7 +183,12 @@ test("restored editorial layout keeps full-width top crops and originals", async
     for (const screen of await screens.all()) {
       const image = screen.locator("img");
       await expect(image).toHaveCSS("object-fit", "cover");
-      await expect(image).toHaveCSS("object-position", "50% 0%");
+      await expect(image).toHaveCSS("object-position", "50% 18%");
+      const label = screen.locator("xpath=../preceding-sibling::div[contains(@class,'plate-top')]");
+      const plateLabel = (await label.count()) ? label : screen.locator("xpath=preceding-sibling::div[contains(@class,'plate-top')]");
+      const labelBox = await plateLabel.boundingBox();
+      const screenBox = await screen.boundingBox();
+      expect(screenBox.y - labelBox.y - labelBox.height).toBeLessThanOrEqual(13);
       const box = await screen.boundingBox();
       const imageBox = await image.boundingBox();
       expect(Math.abs(box.width - imageBox.width)).toBeLessThan(1);
