@@ -1,69 +1,242 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy - Fleu</title>
-  <meta name="description" content="Fleu Privacy Policy - Your data stays yours.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/png" href="assets/logo_dark_background.PNG">
-</head>
-<body>
-  <main class="privacy-page">
-    <div class="container">
-      <a href="index.html">
-        <img src="assets/logo_dark_background.PNG" alt="Fleu" class="privacy-logo">
-      </a>
-      <h1>Privacy Policy</h1>
-      <p class="last-updated">Last updated: December 30, 2025</p>
-
-      <h2>Your Privacy Matters</h2>
-      <p>Fleu is designed with your privacy as a core principle. We believe your personal journal entries and emotional insights belong to you and only you.</p>
-
-      <h2>Data Collection</h2>
-      <p><strong>We do not collect any personal data.</strong> Fleu does not send your journal entries, mood data, or any personal information to our servers or any third party.</p>
-
-      <h2>Data Storage</h2>
-      <p>All your data is stored exclusively on your device and your personal iCloud account:</p>
-      <ul>
-        <li>Journal entries are saved locally on your device</li>
-        <li>Data syncs through your personal iCloud account</li>
-        <li>We have no access to your iCloud data</li>
-        <li>Your data is protected by Apple's security measures</li>
-      </ul>
-
-      <h2>AI Processing</h2>
-      <p>Fleu uses on-device intelligence to analyze your journal entries and provide mood insights. This means:</p>
-      <ul>
-        <li>All AI processing happens locally on your device</li>
-        <li>Your entries are never sent to external servers for analysis</li>
-        <li>No cloud-based AI services are used</li>
-      </ul>
-
-      <h2>Third-Party Services</h2>
-      <p>Fleu does not integrate with any third-party analytics, advertising, or tracking services. We do not share any information with third parties because we simply do not have access to your data.</p>
-
-      <h2>Data Deletion</h2>
-      <p>Since all data is stored on your device and iCloud, you have complete control over your data. You can delete your entries within the app or remove all data by deleting the app from your device.</p>
-
-      <h2>Changes to This Policy</h2>
-      <p>If we make changes to this privacy policy, we will update the "Last updated" date above. We encourage you to review this policy periodically.</p>
-    </div>
-  </main>
-
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-links">
-          <a href="index.html">Home</a>
-          <a href="privacy.html">Privacy Policy</a>
-        </div>
-        <p class="copyright">&copy; 2025 Fleu. All rights reserved.</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy policy — Fleu</title>
+    <meta
+      name="description"
+      content="How Fleu stores your journal, uses on-device analysis and private iCloud, and handles deletion, website requests and support email."
+    />
+    <meta name="theme-color" content="#f3f0e7" />
+    <link rel="canonical" href="https://fleu.app/privacy.html" />
+    <meta property="og:title" content="Privacy policy — Fleu" />
+    <meta
+      property="og:description"
+      content="Plain answers about your journal, iCloud and deletion."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fleu.app/privacy.html" />
+    <meta
+      property="og:image"
+      content="https://fleu.app/assets/logo_light_background.PNG"
+    />
+    <link rel="icon" href="assets/logo_light_background.PNG" type="image/png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="wordmark" href="index.html" aria-label="Fleu home"
+        >fleu<span aria-hidden="true">.</span></a
+      ><span class="masthead-note">A journal for the everyday</span>
+      <nav aria-label="Main navigation">
+        <a href="index.html#inside">Inside Fleu</a
+        ><a href="support.html">Support</a
+        ><a class="nav-cta" href="index.html#begin">Get Fleu ↗</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap">
+      <div class="document-hero">
+        <p class="eyebrow">The fine print, in plain language</p>
+        <h1>Privacy policy.</h1>
+        <p class="document-deck">
+          Your writing is personal. Here is what Fleu stores, where it goes, and
+          what happens when you delete it.
+        </p>
+        <p class="smallprint">
+          Last updated: <time datetime="2026-10-01">October 1, 2026</time>
+        </p>
       </div>
-    </div>
-  </footer>
-</body>
+      <div class="document-layout">
+        <nav class="document-nav" aria-label="On this page">
+          <p class="eyebrow">In this policy</p>
+          <a href="#journal">Your journal</a
+          ><a href="#analysis">Mood analysis</a
+          ><a href="#profile">Profile & preferences</a
+          ><a href="#icloud">iCloud & backups</a
+          ><a href="#deletion">Deletion & choices</a
+          ><a href="#services">Other services</a
+          ><a href="#website">Website & email</a
+          ><a href="#contact">Contact & updates</a>
+        </nav>
+        <article class="prose" aria-label="Privacy policy details">
+          <div class="policy-note">
+            The short version: mood analysis happens on your device. Saved
+            journal records and your optional profile sync through private Apple
+            iCloud. Deletion has limits, especially for other devices and
+            backups.
+          </div>
+          <section id="journal">
+            <h2>Your journal</h2>
+            <p>
+              Fleu uses your journal text, timestamps and mood estimates to
+              display your entries, daily mood summaries and statistics. Journal
+              data is stored on your device. Journal records and daily summaries
+              also sync through Apple iCloud when available. Derived statistics
+              are kept locally and rebuilt from your journal.
+            </p>
+            <p>
+              These records are retained to provide your journal and history
+              until you delete them, subject to the sync, cache and backup
+              limitations below.
+            </p>
+          </section>
+          <section id="analysis">
+            <h2>On-device mood analysis</h2>
+            <p>
+              Fleu uses Apple’s on-device Foundation Models to estimate the
+              emotional tone of your writing. Fleu does not send your writing to
+              a third-party AI service for analysis. Recent text and analysis
+              results are temporarily cached in memory to avoid repeating work.
+            </p>
+            <p>
+              On-device analysis does not mean all data stays on the device:
+              saved entries, including mood estimates, sync through iCloud.
+              Estimates can be wrong and are for reflection, not medical
+              assessment.
+            </p>
+          </section>
+          <section id="profile">
+            <h2>Profile, photos & preferences</h2>
+            <p>
+              Your name, birthday and profile photo are optional. They
+              personalize your profile; you can journal without providing them.
+              Fleu stores profile information and a resized copy of your chosen
+              photo locally and syncs them through your private iCloud database.
+            </p>
+            <p>
+              The photo picker supplies only the image you choose. Fleu does not
+              upload your photo library. The saved profile image is re-encoded
+              without the original photo’s metadata.
+            </p>
+            <p>
+              Theme, clock format and haptic preferences are stored on the
+              device using UserDefaults, separately from your journal and
+              profile.
+            </p>
+          </section>
+          <section id="icloud">
+            <h2>Private iCloud sync & backups</h2>
+            <p>
+              Apple’s CloudKit syncs journal and profile records through your
+              private iCloud database. This is not a public feed. Sync depends
+              on your iCloud account and service availability and may take time.
+              Profile edits can remain on your device waiting to sync.
+            </p>
+            <p>
+              Fleu keeps account-specific profile caches and sync bookkeeping
+              locally so that changing iCloud accounts does not mix profiles.
+              Signing out does not delete these caches. Local profile files are
+              eligible for device backups; backup copies are separate from live
+              iCloud sync.
+            </p>
+            <p>
+              Apple provides iCloud, device backups and other system services
+              under its own terms and privacy practices. Fleu does not claim
+              that using iCloud means data never leaves your device.
+            </p>
+          </section>
+          <section id="deletion">
+            <h2>Deletion & your choices</h2>
+            <p>
+              <strong>Delete all entries</strong> in Profile removes the journal
+              entries and daily summaries present on that device when deletion
+              runs, refreshes statistics and clears the analysis cache. This
+              cannot be undone. It does not delete your profile or preferences.
+            </p>
+            <p>
+              Journal deletions sync through iCloud, but entries not yet
+              downloaded or newly created on another device may appear later.
+              This is not an immediate wipe of every device or backup.
+            </p>
+            <p>
+              In <strong>Edit profile</strong>, clear your name, remove your
+              date of birth or remove your photo, then Save to update the
+              current profile and sync those changes. This does not erase other
+              account caches or existing backups. Fleu does not provide a single
+              control to erase all profile caches and backup copies.
+            </p>
+            <p>
+              <strong
+                >Deleting the app is not a complete deletion of iCloud data or
+                backups.</strong
+              >
+              Review your Apple account’s iCloud storage and backup settings
+              separately. If you have questions about the controls, contact
+              <a href="mailto:support@fleu.app">support@fleu.app</a> without
+              sending private journal content.
+            </p>
+          </section>
+          <section id="services">
+            <h2>Advertising & other services</h2>
+            <p>
+              The Fleu app does not include advertising, tracking or third-party
+              analytics SDKs. Its app data flows are local storage, on-device
+              mood analysis and Apple iCloud sync.
+            </p>
+            <p>
+              Apple’s account, operating-system services, TestFlight and backup
+              settings operate separately from Fleu. Opening a TestFlight link
+              takes you to Apple’s service.
+            </p>
+          </section>
+          <section id="website">
+            <h2>This website & support email</h2>
+            <p>
+              This website does not set analytics or advertising cookies or load
+              third-party analytics scripts. Fonts, screenshots and website
+              scripts are served with the site rather than fetched from external
+              font or script providers.
+            </p>
+            <p>
+              The site is hosted on GitHub Pages. Serving a page involves
+              sending technical request information, such as your IP address and
+              browser information, to the hosting provider. The provider may
+              keep service or security logs under its own policies. This is
+              separate from the app’s journal storage.
+            </p>
+            <p>
+              If you email
+              <a href="mailto:support@fleu.app">support@fleu.app</a>, the
+              address and information you choose to send are processed by email
+              providers and used to handle your request. Please do not include
+              journal entries, birthdays, private photos or other sensitive
+              information. Support correspondence may be retained to handle and
+              follow up on your request; you can contact the same address to
+              request deletion. Email-provider records and backups may be
+              retained separately.
+            </p>
+          </section>
+          <section id="contact">
+            <h2>Contact & policy updates</h2>
+            <p>
+              For support, privacy questions or a request about information you
+              have sent by email, contact
+              <a href="mailto:support@fleu.app">support@fleu.app</a>. Support
+              cannot act as an immediate remote wipe of your devices, private
+              iCloud records or backups.
+            </p>
+            <p>
+              When this policy changes, the “Last updated” date on this page
+              will change. The <a href="support.html">support page</a> also
+              explains compatibility, sync and deletion controls.
+            </p>
+          </section>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer wrap">
+      <a class="wordmark" href="index.html" aria-label="Fleu home"
+        >fleu<span aria-hidden="true">.</span></a
+      >
+      <p>A little of your day, kept.</p>
+      <nav aria-label="Footer navigation">
+        <a href="privacy.html" aria-current="page">Privacy</a
+        ><a href="support.html">Support</a
+        ><a href="mailto:support@fleu.app">Email us ↗</a>
+      </nav>
+      <span class="copyright">© 2026 Fleu</span>
+    </footer>
+  </body>
 </html>

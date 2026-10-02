@@ -1,0 +1,16 @@
+{
+  "name": "fleu-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fleu's static editorial website; Node is only used for local verification.",
+  "scripts": {
+    "test": "playwright test",
+    "test:update": "playwright test --update-snapshots",
+    "preview": "python3 -m http.server 4173 --bind 127.0.0.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.11.1",
+    "@playwright/test": "1.63.0",
+    "prettier": "3.8.1"
+  }
+}
