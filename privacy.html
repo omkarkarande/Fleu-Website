@@ -45,7 +45,7 @@
           what happens when you delete it.
         </p>
         <p class="smallprint">
-          Last updated: <time datetime="2026-10-01">October 1, 2026</time>
+          Last updated: <time datetime="2026-10-05">October 5, 2026</time>
         </p>
       </div>
       <div class="document-layout">
@@ -54,6 +54,7 @@
           <a href="#journal">Your journal</a
           ><a href="#analysis">Mood analysis</a
           ><a href="#profile">Profile & preferences</a
+          ><a href="#photos">Journal photos</a
           ><a href="#icloud">iCloud & backups</a
           ><a href="#deletion">Deletion & choices</a
           ><a href="#services">Other services</a
@@ -106,7 +107,7 @@
               photo locally and syncs them through your private iCloud database.
             </p>
             <p>
-              The photo picker supplies only the image you choose. Fleu does not
+              The profile photo picker supplies only the image you choose. Fleu does not
               upload your photo library. The saved profile image is re-encoded
               without the original photo’s metadata.
             </p>
@@ -114,6 +115,44 @@
               Theme, clock format and haptic preferences are stored on the
               device using UserDefaults, separately from your journal and
               profile.
+            </p>
+          </section>
+          <section id="photos">
+            <h2>Photos linked to journal entries</h2>
+            <p>
+              Entry attachments link to originals in Apple Photos. Fleu syncs an
+              opaque attachment key, your chosen crop position and, when
+              available, an iCloud Photos identifier with your journal—not
+              attachment image files. Unlike your profile photo, a journal
+              attachment is not a separate image copy stored by Fleu. Display
+              thumbnails are held in memory, not saved or uploaded by Fleu.
+            </p>
+            <p>
+              To display a linked photo that is not available locally, Apple
+              Photos may download an image from iCloud Photos using network
+              access. Original photos remain in Photos and its separate iCloud
+              Photos service; removing a link or deleting an entry never deletes
+              the original.
+            </p>
+            <p>
+              Photos access is optional and may be limited to selected images.
+              Fleu requests it only when you choose to attach a photo or allow
+              access. You can change access in Settings or use Manage Selected
+              Photos in Fleu. You can journal without granting Photos access.
+            </p>
+            <p>
+              A device-only identifier cache helps Fleu find linked originals.
+              It is excluded from backups and does not contain image files.
+              Removing a link or deleting entries does not clear this identifier
+              cache; Fleu has no in-app control to clear it.
+            </p>
+            <p>
+              When iCloud Photos mapping is unavailable, a link may work only on
+              the device where it was chosen. Fleu retries mapping when you view
+              or refresh it. Cache removal or reinstall can lose a device-only
+              link. Other devices need access to the same original through
+              iCloud Photos. Unavailable photos keep their references so they
+              can return when access or syncing is restored.
             </p>
           </section>
           <section id="icloud">
@@ -149,6 +188,9 @@
               Journal deletions sync through iCloud, but entries not yet
               downloaded or newly created on another device may appear later.
               This is not an immediate wipe of every device or backup.
+              Removing photo links or deleting entries does not delete originals
+              from Apple Photos or clear Fleu’s device-only identifier cache.
+              See <a href="#photos">journal photo storage and retention</a>.
             </p>
             <p>
               In <strong>Edit profile</strong>, clear your name, remove your

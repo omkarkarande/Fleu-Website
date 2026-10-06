@@ -135,6 +135,31 @@ test("privacy and compatibility regressions", async ({ page }) => {
   );
 });
 
+test("photo disclosures distinguish attachments, profile images and retention", async ({ page }) => {
+  await page.goto("/privacy.html");
+  await expect(page.locator('.document-nav a[href="#photos"]')).toBeVisible();
+  const photos = page.locator("#photos");
+  for (const text of [
+    "not attachment image files",
+    "crop position",
+    "iCloud Photos identifier",
+    "held in memory",
+    "download an image from iCloud Photos",
+    "limited to selected images",
+    "excluded from backups",
+    "does not clear this identifier cache",
+    "no in-app control to clear it",
+    "never deletes the original",
+    "reinstall can lose a device-only link",
+  ]) await expect(photos).toContainText(text);
+  await expect(page.locator("#profile")).toContainText("resized copy");
+  await expect(page.locator("#deletion")).toContainText("identifier cache");
+  await page.goto("/support.html");
+  await page.getByText("Why is a linked photo missing?", { exact: true }).click();
+  await expect(page.locator("details[open]")).toContainText("Manage Selected Photos");
+  await expect(page.locator("details[open] a")).toHaveAttribute("href", "privacy.html#photos");
+});
+
 test("black palette blends screenshot surfaces into the page", async ({
   page,
 }) => {
