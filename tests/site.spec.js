@@ -121,6 +121,13 @@ test("privacy and compatibility regressions", async ({ page }) => {
   await expect(page.locator("#deletion")).toContainText(
     "Deleting the app is not a complete deletion",
   );
+  await expect(page.locator("#journal")).toContainText(
+    "Journal entries, daily summaries and statistics also sync through Apple iCloud",
+  );
+  await expect(page.locator("#journal")).toContainText(
+    "Changes save together on your device before iCloud sync completes",
+  );
+  await expect(page.locator("#journal")).not.toContainText("are kept locally and rebuilt");
   await expect(page.locator("#profile")).toContainText("birthday");
   await expect(page.locator("#icloud")).toContainText(
     "Signing out does not delete these caches",
