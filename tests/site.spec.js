@@ -77,7 +77,7 @@ test("screenshot dialog: keyboard, trapping, escape and restoration", async ({
     await trigger.click();
     await expect(page.locator("#dialog-image")).toHaveAttribute(
       "src",
-      /assets\/[123]\.png$/,
+      /assets\/0[123]-(today|history|stats)-framed-v1\.webp$/,
     );
     await page.getByRole("button", { name: "Close" }).click();
     await expect(trigger).toBeFocused();
@@ -90,7 +90,7 @@ test("no-JS navigation, screenshot fallback and FAQ", async ({ browser }) => {
   await page.goto("http://127.0.0.1:4173/");
   await expect(page.locator("h1")).toContainText("kept.");
   await page.locator("[data-zoom]").first().click();
-  await expect(page).toHaveURL(/assets\/1.png$/);
+  await expect(page).toHaveURL(/assets\/01-today-framed-v1.webp$/);
   await page.goto("http://127.0.0.1:4173/support.html");
   await page.getByText("How do I delete my data?", { exact: true }).click();
   await expect(page.locator("details[open]")).toContainText(
@@ -127,7 +127,9 @@ test("privacy and compatibility regressions", async ({ page }) => {
   await expect(page.locator("#journal")).toContainText(
     "Changes save together on your device before iCloud sync completes",
   );
-  await expect(page.locator("#journal")).not.toContainText("are kept locally and rebuilt");
+  await expect(page.locator("#journal")).not.toContainText(
+    "are kept locally and rebuilt",
+  );
   await expect(page.locator("#profile")).toContainText("birthday");
   await expect(page.locator("#icloud")).toContainText(
     "Signing out does not delete these caches",
@@ -142,7 +144,9 @@ test("privacy and compatibility regressions", async ({ page }) => {
   );
 });
 
-test("photo disclosures distinguish attachments, profile images and retention", async ({ page }) => {
+test("photo disclosures distinguish attachments, profile images and retention", async ({
+  page,
+}) => {
   await page.goto("/privacy.html");
   await expect(page.locator('.document-nav a[href="#photos"]')).toBeVisible();
   const photos = page.locator("#photos");
@@ -158,13 +162,21 @@ test("photo disclosures distinguish attachments, profile images and retention", 
     "no in-app control to clear it",
     "never deletes the original",
     "reinstall can lose a device-only link",
-  ]) await expect(photos).toContainText(text);
+  ])
+    await expect(photos).toContainText(text);
   await expect(page.locator("#profile")).toContainText("resized copy");
   await expect(page.locator("#deletion")).toContainText("identifier cache");
   await page.goto("/support.html");
-  await page.getByText("Why is a linked photo missing?", { exact: true }).click();
-  await expect(page.locator("details[open]")).toContainText("Manage Selected Photos");
-  await expect(page.locator("details[open] a")).toHaveAttribute("href", "privacy.html#photos");
+  await page
+    .getByText("Why is a linked photo missing?", { exact: true })
+    .click();
+  await expect(page.locator("details[open]")).toContainText(
+    "Manage Selected Photos",
+  );
+  await expect(page.locator("details[open] a")).toHaveAttribute(
+    "href",
+    "privacy.html#photos",
+  );
 });
 
 test("black palette blends screenshot surfaces into the page", async ({
@@ -197,7 +209,7 @@ test("black palette blends screenshot surfaces into the page", async ({
   expect(a11y.violations).toEqual([]);
 });
 
-test("restored editorial layout keeps full-width top crops and originals", async ({
+test("editorial layout keeps complete framed screens and staggered plates", async ({
   page,
 }) => {
   for (const width of [320, 390, 768, 1024, 1440]) {
@@ -214,18 +226,26 @@ test("restored editorial layout keeps full-width top crops and originals", async
     await expect(screens).toHaveCount(3);
     for (const screen of await screens.all()) {
       const image = screen.locator("img");
-      await expect(image).toHaveCSS("object-fit", "cover");
-      await expect(image).toHaveCSS("object-position", "50% 18%");
-      const label = screen.locator("xpath=../preceding-sibling::div[contains(@class,'plate-top')]");
-      const plateLabel = (await label.count()) ? label : screen.locator("xpath=preceding-sibling::div[contains(@class,'plate-top')]");
+      await expect(image).toHaveCSS("object-fit", "contain");
+      await expect(image).toHaveCSS("object-position", "50% 50%");
+      const label = screen.locator(
+        "xpath=../preceding-sibling::div[contains(@class,'plate-top')]",
+      );
+      const plateLabel = (await label.count())
+        ? label
+        : screen.locator(
+            "xpath=preceding-sibling::div[contains(@class,'plate-top')]",
+          );
       const labelBox = await plateLabel.boundingBox();
       const screenBox = await screen.boundingBox();
-      expect(screenBox.y - labelBox.y - labelBox.height).toBeLessThanOrEqual(13);
+      expect(screenBox.y - labelBox.y - labelBox.height).toBeLessThanOrEqual(
+        13,
+      );
       const box = await screen.boundingBox();
       const imageBox = await image.boundingBox();
       expect(Math.abs(box.width - imageBox.width)).toBeLessThan(1);
       expect(Math.abs(box.height - imageBox.height)).toBeLessThan(1);
-      expect(box.width / box.height).toBeGreaterThan(0.7);
+      expect(Math.abs(box.width / box.height - 720 / 1522)).toBeLessThan(0.003);
       const parentWidth = await screen.evaluate((el) => {
         const parent = el.parentElement;
         const style = getComputedStyle(parent);
@@ -235,7 +255,7 @@ test("restored editorial layout keeps full-width top crops and originals", async
           parseFloat(style.paddingRight)
         );
       });
-      expect(Math.abs(parentWidth - box.width)).toBeLessThan(1);
+      expect(box.width).toBeLessThanOrEqual(parentWidth + 1);
     }
     if (width > 700) {
       const plates = await page.locator(".feature-plate").all();

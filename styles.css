@@ -815,7 +815,7 @@ dialog::backdrop {
     scroll-behavior: auto;
   }
 }
-/* Lift screenshot content past its empty top margin; zoom keeps the originals. */
+/* Complete captured screens in the same restrained frames as the store artwork. */
 .hero-plate {
   min-height: 0;
   padding: 0;
@@ -826,17 +826,20 @@ dialog::backdrop {
 .screen-link,
 .feature-plate .screen-link {
   width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
+  max-width: 280px;
+  aspect-ratio: 720 / 1522;
+  overflow: visible;
+  margin-inline: auto;
 }
 .screen-link img {
   height: 100%;
-  object-fit: cover;
-  object-position: center 18%;
+  object-fit: contain;
+  object-position: center;
 }
 .hero-screen {
-  aspect-ratio: 4 / 5;
-  margin: 0;
+  max-width: 300px;
+  aspect-ratio: 720 / 1522;
+  margin: 0 auto;
   grid-column: 1 / -1;
   grid-row: 1;
 }
