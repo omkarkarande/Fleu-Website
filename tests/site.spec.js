@@ -77,7 +77,7 @@ test("screenshot dialog: keyboard, trapping, escape and restoration", async ({
     await trigger.click();
     await expect(page.locator("#dialog-image")).toHaveAttribute(
       "src",
-      /assets\/0[123]-(today|history|stats)-framed-v1\.webp$/,
+      /assets\/0[123]-(today|history|stats)-angled-dark-v2\.webp$/,
     );
     await page.getByRole("button", { name: "Close" }).click();
     await expect(trigger).toBeFocused();
@@ -90,7 +90,7 @@ test("no-JS navigation, screenshot fallback and FAQ", async ({ browser }) => {
   await page.goto("http://127.0.0.1:4173/");
   await expect(page.locator("h1")).toContainText("kept.");
   await page.locator("[data-zoom]").first().click();
-  await expect(page).toHaveURL(/assets\/01-today-framed-v1.webp$/);
+  await expect(page).toHaveURL(/assets\/01-today-angled-dark-v2.webp$/);
   await page.goto("http://127.0.0.1:4173/support.html");
   await page.getByText("How do I delete my data?", { exact: true }).click();
   await expect(page.locator("details[open]")).toContainText(
@@ -209,7 +209,7 @@ test("black palette blends screenshot surfaces into the page", async ({
   expect(a11y.violations).toEqual([]);
 });
 
-test("editorial layout keeps complete framed screens and staggered plates", async ({
+test("editorial layout keeps complete angled screens and staggered plates", async ({
   page,
 }) => {
   for (const width of [320, 390, 768, 1024, 1440]) {
@@ -245,7 +245,7 @@ test("editorial layout keeps complete framed screens and staggered plates", asyn
       const imageBox = await image.boundingBox();
       expect(Math.abs(box.width - imageBox.width)).toBeLessThan(1);
       expect(Math.abs(box.height - imageBox.height)).toBeLessThan(1);
-      expect(Math.abs(box.width / box.height - 720 / 1522)).toBeLessThan(0.003);
+      expect(Math.abs(box.width / box.height - 784 / 1498)).toBeLessThan(0.003);
       const parentWidth = await screen.evaluate((el) => {
         const parent = el.parentElement;
         const style = getComputedStyle(parent);
@@ -267,10 +267,13 @@ test("editorial layout keeps complete framed screens and staggered plates", asyn
   await page.locator("[data-zoom]").last().click();
   await expect(page.locator("#dialog-image")).toHaveCSS("height", /px$/);
   expect(
-    await page
-      .locator("#dialog-image")
-      .evaluate((img) => img.clientHeight / img.clientWidth),
-  ).toBeGreaterThan(2);
+    Math.abs(
+      (await page
+        .locator("#dialog-image")
+        .evaluate((img) => img.clientHeight / img.clientWidth)) -
+        1498 / 784,
+    ),
+  ).toBeLessThan(0.01);
 });
 
 test("capture review images", async ({ page }, testInfo) => {
