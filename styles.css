@@ -827,7 +827,7 @@ dialog::backdrop {
 .feature-plate .screen-link {
   width: 100%;
   max-width: 280px;
-  aspect-ratio: 756 / 1623;
+  aspect-ratio: 900 / 1575;
   overflow: visible;
   margin-inline: auto;
 }
@@ -838,7 +838,7 @@ dialog::backdrop {
 }
 .hero-screen {
   max-width: 300px;
-  aspect-ratio: 756 / 1623;
+  aspect-ratio: 900 / 1575;
   margin: 0 auto;
   grid-column: 1 / -1;
   grid-row: 1;
