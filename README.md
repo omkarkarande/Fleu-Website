@@ -1,6 +1,14 @@
 # Fleu website
 
-A static site for Fleu, built as a small printed journal: warm paper, dark ink, rust accents, serif headlines, fine rules and numbered screenshot plates. No framework, build step, CDN scripts, remote fonts, tracking or cookie banner. Existing product screenshots are preserved; their dark UI is treated as an editorial image rather than recoloured or fabricated.
+A static site for Fleu: true black (#000), warm ivory (#f3f0e7), terracotta (#d99376), Georgia serif headlines and italic accents, fine rules and numbered screenshot plates. No framework, build step, CDN scripts, remote fonts, tracking or cookie banner. Native dark product screenshots are preserved, not recoloured or fabricated.
+
+## Screenshot assets (editorial-dark-v3)
+
+Today, History and Insights use transparent lossless 756 × 1623 WebP images with thin matte, flat front-facing frames. The entire captured viewport is fitted with `object-fit: contain`; no perspective, rotation, extrusion, reflection or shadow is applied. Their HTML dimensions and CSS aspect ratios match the exported files. Image filenames and the homepage stylesheet query version are cache-busted together.
+
+Source and renderer: sibling `Fleu/Marketing/Screenshots/compose.py`. Run that script and `test_compositions.py`, then explicitly copy the first three `web/*-editorial-dark-v3.webp` outputs into this site's `assets/`. The renderer never writes into this website. Capture hashes, composition geometry and export hashes live in the sibling `composition-manifest.json`; the source captures are unchanged. The obsolete angled-v2 assets are removed.
+
+Local verification for this revision: `npm test` (Chromium and WebKit), `npx prettier --check index.html styles.css tests/editorial-screens.spec.js tests/site.spec.js`, and `git diff --check`. Browser evidence: `artifacts/editorial-dark-v3-browser-tests.log`, `artifacts/index-desktop.png` and `artifacts/index-mobile.png`. All artifacts are local; no publication is implied.
 
 ## Pages
 
