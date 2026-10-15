@@ -815,41 +815,54 @@ dialog::backdrop {
     scroll-behavior: auto;
   }
 }
-/* Complete captured screens in the same restrained frames as the store artwork. */
+/* Native UI details sit on the page; full screens remain available on tap. */
 .hero-plate {
   min-height: 0;
-  padding: 0;
+  padding: 0 0 24px;
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 20px;
+  gap: 32px 20px;
 }
 .screen-link,
 .feature-plate .screen-link {
   width: 100%;
-  max-width: 280px;
-  aspect-ratio: 900 / 1575;
+  max-width: none;
   overflow: visible;
   margin-inline: auto;
 }
 .screen-link img {
-  height: 100%;
+  height: auto;
   object-fit: contain;
   object-position: center;
 }
 .hero-screen {
-  max-width: 300px;
-  aspect-ratio: 900 / 1575;
   margin: 0 auto;
   grid-column: 1 / -1;
   grid-row: 1;
 }
 .hero-plate .margin-note {
   position: static;
+  width: auto;
 }
 .hero-plate .vertical-note {
   position: static;
   writing-mode: horizontal-tb;
   align-self: end;
+}
+.feature-plate {
+  padding: 0;
+}
+.feature-plate .screen-link {
+  margin-block: 12px 28px;
+}
+@media (max-width: 700px) {
+  .hero-plate {
+    gap: 24px 16px;
+    padding-bottom: 20px;
+  }
+  .feature-spread {
+    gap: 40px;
+  }
 }
 @media print {
   :root {

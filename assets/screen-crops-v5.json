@@ -1,0 +1,47 @@
+[
+  {
+    "name": "01-today",
+    "source": "01-today-full-v5.webp",
+    "source_sha256": "c005dbf2e27f3e01a3b056ffc58c0e8be3e859f9cc186f5250d81e87c805f794",
+    "crop": "01-today-detail-v5.webp",
+    "crop_sha256": "ac356ba4393e8e2782fb57c10cff1015a5a101874ec0548480cc4131f4f7aaf6",
+    "crop_box": [
+      0,
+      620,
+      1320,
+      1830
+    ],
+    "width": 1320,
+    "height": 1210
+  },
+  {
+    "name": "02-history",
+    "source": "02-history-full-v5.webp",
+    "source_sha256": "d39faf84b1474c5ad4f9674e1e99feed12a7d4896fd2f2bc6249dd07dc5abdae",
+    "crop": "02-history-detail-v5.webp",
+    "crop_sha256": "9aab8e2cd507d71dfd054ff5866f2c7f1dad2badb9890f283f5cc29d704b3aae",
+    "crop_box": [
+      0,
+      300,
+      1320,
+      1660
+    ],
+    "width": 1320,
+    "height": 1360
+  },
+  {
+    "name": "03-stats",
+    "source": "03-stats-full-v5.webp",
+    "source_sha256": "3cd212f62edfeb0fa80ae5f6f87b8baad57ee9ae64dfbb8f9d1178425cfb3535",
+    "crop": "03-stats-detail-v5.webp",
+    "crop_sha256": "3cfd3061e751c6d08ac82bbdb993cf3474b0b4c644298cbe8c3f30a4404bf975",
+    "crop_box": [
+      0,
+      300,
+      1320,
+      1890
+    ],
+    "width": 1320,
+    "height": 1590
+  }
+]

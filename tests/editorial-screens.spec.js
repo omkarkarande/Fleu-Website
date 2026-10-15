@@ -1,33 +1,66 @@
 const { test, expect } = require("@playwright/test");
 const { createHash } = require("node:crypto");
+const manifest = require("../assets/screen-crops-v5.json");
 
-// Hashes of the approved transparent, text-free web derivatives (not store posters).
-const assets = {
-  "01-today":
-    "cbc0e9dccf61999e99813a64622ac7690ce2fa0661585843848af43bf7828533",
-  "02-history":
-    "30e01ca70436f8b1c4083d4a2d9bd0d9fae4c6abc0f8046bd1853693ad37b856",
-  "03-stats":
-    "c5d664889ed15c05ac28cf96d3e095971bfe338d2bcaad780bbb89f8b9457f67",
-};
+const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
-test("approved text-free tilted web assets retain their exact bytes", async ({
+test("website crops and full-screen originals match their provenance", async ({
   request,
 }) => {
-  for (const [name, hash] of Object.entries(assets)) {
-    const response = await request.get(
-      `/assets/${name}-editorial-lean-v4.webp`,
-    );
-    expect(response.ok()).toBeTruthy();
-    expect(
-      createHash("sha256")
-        .update(await response.body())
-        .digest("hex"),
-    ).toBe(hash);
+  for (const asset of manifest) {
+    for (const [filename, hash] of [
+      [asset.source, asset.source_sha256],
+      [asset.crop, asset.crop_sha256],
+    ]) {
+      const response = await request.get(`/assets/${filename}`);
+      expect(response.ok()).toBeTruthy();
+      expect(sha256(await response.body())).toBe(hash);
+    }
   }
 });
 
-test("dark clockwise-tilted screens decode without cropping at every breakpoint", async ({
+test("website details are pixel-exact crops, not repainted UI", async ({
+  page,
+}) => {
+  await page.goto("/");
+  for (const asset of manifest) {
+    const matches = await page.evaluate(async (asset) => {
+      const load = async (filename) => {
+        const image = new Image();
+        image.src = `/assets/${filename}`;
+        await image.decode();
+        return image;
+      };
+      const [source, crop] = await Promise.all([
+        load(asset.source),
+        load(asset.crop),
+      ]);
+      const canvas = document.createElement("canvas");
+      canvas.width = asset.width;
+      canvas.height = asset.height;
+      const context = canvas.getContext("2d");
+      context.drawImage(source, -asset.crop_box[0], -asset.crop_box[1]);
+      const expected = context.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+      ).data;
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(crop, 0, 0);
+      const actual = context.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+      ).data;
+      return expected.every((value, index) => value === actual[index]);
+    }, asset);
+    expect(matches, asset.name).toBeTruthy();
+  }
+});
+
+test("unframed details retain their proportions across breakpoints", async ({
   page,
 }) => {
   for (const width of [320, 390, 768, 1024, 1440]) {
@@ -35,46 +68,41 @@ test("dark clockwise-tilted screens decode without cropping at every breakpoint"
     await page.goto("/");
     await expect(page.locator('link[rel="stylesheet"]')).toHaveAttribute(
       "href",
-      "styles.css?v=editorial-lean-v4",
+      "styles.css?v=screen-details-v5",
     );
-    await expect(page.locator(".screen-link img")).toHaveCount(3);
-    for (const image of await page.locator(".screen-link img").all()) {
+    const images = page.locator(".screen-link img");
+    await expect(images).toHaveCount(manifest.length);
+    for (const [index, asset] of manifest.entries()) {
+      const image = images.nth(index);
       await image.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() =>
+          image.evaluate((img) => img.complete && img.naturalWidth > 0),
+        )
+        .toBeTruthy();
       await image.evaluate((img) => img.decode());
-      await expect(image).toHaveAttribute("src", /editorial-lean-v4\.webp$/);
-      await expect(image).toHaveCSS("object-fit", "contain");
+      await expect(image).toHaveAttribute("src", `assets/${asset.crop}`);
+      await expect(image.locator("..")).toHaveAttribute(
+        "href",
+        `assets/${asset.source}`,
+      );
       await expect(image).toHaveCSS("transform", "none");
       await expect(image.locator("..")).toHaveCSS("transform", "none");
-      await expect(image).toHaveAttribute("alt", /clockwise-tilted dark phone/);
-      await expect(image).toHaveAttribute("width", "900");
-      await expect(image).toHaveAttribute("height", "1575");
-      const metrics = await image.evaluate((img) => {
-        const rect = img.getBoundingClientRect();
-        const canvas = document.createElement("canvas");
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        return {
-          w: img.naturalWidth,
-          h: img.naturalHeight,
-          ratio: rect.width / rect.height,
-          left: rect.left,
-          right: rect.right,
-          corners: [
-            [0, 0],
-            [899, 0],
-            [0, 1574],
-            [899, 1574],
-          ].map(([x, y]) => ctx.getImageData(x, y, 1, 1).data[3]),
-        };
-      });
-      expect(metrics.w).toBe(900);
-      expect(metrics.h).toBe(1575);
-      expect(Math.abs(metrics.ratio - 900 / 1575)).toBeLessThan(0.003);
-      expect(metrics.left).toBeGreaterThanOrEqual(0);
-      expect(metrics.right).toBeLessThanOrEqual(width);
-      expect(metrics.corners).toEqual([0, 0, 0, 0]);
+      await expect(image).toHaveAttribute("alt", /^Detail of Fleu/);
+      const dimensions = await image.evaluate((img) => ({
+        width: img.naturalWidth,
+        height: img.naturalHeight,
+        left: img.getBoundingClientRect().left,
+        right: img.getBoundingClientRect().right,
+        ratio: img.clientWidth / img.clientHeight,
+      }));
+      expect(dimensions.width).toBe(asset.width);
+      expect(dimensions.height).toBe(asset.height);
+      expect(
+        Math.abs(dimensions.ratio - asset.width / asset.height),
+      ).toBeLessThan(0.01);
+      expect(dimensions.left).toBeGreaterThanOrEqual(0);
+      expect(dimensions.right).toBeLessThanOrEqual(width);
     }
     expect(
       await page.evaluate(
@@ -82,6 +110,9 @@ test("dark clockwise-tilted screens decode without cropping at every breakpoint"
       ),
     ).toBeTruthy();
   }
+  await expect(page.locator(".spread-note")).toContainText(
+    "Cropped app screens",
+  );
   await expect(page.locator(".spread-note")).toContainText(
     "authored sample mood scores",
   );

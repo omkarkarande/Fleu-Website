@@ -2,13 +2,13 @@
 
 A static site for Fleu: true black (#000), warm ivory (#f3f0e7), terracotta (#d99376), Georgia serif headlines and italic accents, fine rules and numbered screenshot plates. No framework, build step, CDN scripts, remote fonts, tracking or cookie banner. Native dark product screenshots are preserved, not recoloured or fabricated.
 
-## Screenshot assets (editorial-dark-v3)
+## Screenshot assets (screen-details-v5)
 
-Today, History and Insights use transparent lossless 756 × 1623 WebP images with thin matte, flat front-facing frames. The entire captured viewport is fitted with `object-fit: contain`; no perspective, rotation, extrusion, reflection or shadow is applied. Their HTML dimensions and CSS aspect ratios match the exported files. Image filenames and the homepage stylesheet query version are cache-busted together.
+Today, History and Insights use lossless, hardware-free crops of native dark screenshots. Today focuses on the date and three entries; History preserves the complete calendar row and entries; Insights preserves the summary metrics and complete mood-trend chart. No UI is repainted, rearranged or stretched. Black image backgrounds blend into the site. The crops fill their editorial columns instead of shrinking inside device mockups. Tapping opens the complete original screenshot, including without JavaScript. App Store artwork is separate and unchanged.
 
-Source and renderer: sibling `Fleu/Marketing/Screenshots/compose.py`. Run that script and `test_compositions.py`, then explicitly copy the first three `web/*-editorial-dark-v3.webp` outputs into this site's `assets/`. The renderer never writes into this website. Capture hashes, composition geometry and export hashes live in the sibling `composition-manifest.json`; the source captures are unchanged. The obsolete angled-v2 assets are removed.
+Run `python3 scripts/generate-screen-crops.py` (requires Pillow) to reproduce the crops from checked-in lossless full-screen WebPs. The initial import used `--source-dir ../Fleu/Marketing/Screenshots/raw`. Crop rectangles, dimensions and source/export hashes are recorded in `assets/screen-crops-v5.json`. Browser tests compare every crop pixel with its source region, verify both file hashes and test responsive proportions. Filenames and the homepage stylesheet query are versioned together. Retired tilted web assets are removed.
 
-Local verification for this revision: `npm test` (Chromium and WebKit), `npx prettier --check index.html styles.css tests/editorial-screens.spec.js tests/site.spec.js`, and `git diff --check`. Browser evidence: `artifacts/editorial-dark-v3-browser-tests.log`, `artifacts/index-desktop.png` and `artifacts/index-mobile.png`. All artifacts are local; no publication is implied.
+Local verification: `npm test` (Chromium and WebKit), `npx prettier --check index.html styles.css tests/editorial-screens.spec.js tests/site.spec.js`, and `git diff --check`. Browser evidence is written to ignored `artifacts/index-desktop.png` and `artifacts/index-mobile.png`.
 
 ## Pages
 
@@ -18,7 +18,7 @@ Local verification for this revision: `npm test` (Chromium and WebKit), `npx pre
 - `styles.css`: shared design tokens, layouts, responsive and print styles.
 - `site.js`: progressively enhanced native screenshot dialog. Real image links work without JavaScript. Escape, close, backdrop dismissal and focus restoration are supported.
 
-`CNAME` remains unchanged. The repository uses GitHub Pages. No deployment was performed as part of this local redesign.
+`CNAME` remains unchanged. The repository uses GitHub Pages.
 
 ## Local preview
 
@@ -56,4 +56,4 @@ No new legal compliance guarantee, third-party certification, testimonials, down
 - Replace “App Store release coming soon” with a real verified App Store URL only once available.
 - Check the primary flow, text enlargement and VoiceOver on an actual iPhone.
 
-No commit, push, publication, App Store Connect change or support email was sent by this redesign.
+Website artwork changes do not upload or change App Store Connect screenshots.
